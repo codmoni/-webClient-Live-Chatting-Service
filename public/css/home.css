@@ -22,23 +22,26 @@ body, html {
 .row {
     height: 100%;
     display: flex;
+    flex-wrap: nowrap; /* Prevent row from wrapping */
 }
 
 .col-md-4, .col-md-8, .col-lg-3, .col-lg-9 {
     height: 100%;
+    display: flex;
+    flex-direction: column;
     /* overflow-y: auto; */
 }
 
 .member-card {
-    height: 100%;
+    height: 655px;
     overflow-y: auto;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
-    height: 94vh;
     margin-right: 20px;
+    flex: 1; /* Make the element flexible */
 }
 
 ul {
@@ -96,6 +99,9 @@ ul {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    justify-content: flex-end; /* Make the input box stick to the bottom */
+    margin: 5px 0px 0px 0px;
+    position: relative;
 }
 
 .messages-list {
@@ -114,7 +120,7 @@ ul {
 .messages-list .card {
     margin-bottom: 10px;
     border: 0;
-    width: auto; /* 채팅 박스의 너비 조정 */
+    width: 250px; /* 채팅 박스의 너비 조정 */
     max-width: 80%; /* 최대 너비 설정 */
     word-wrap: break-word;
 }
@@ -122,11 +128,15 @@ ul {
 .my-message {
     align-self: flex-end;
     background-color: rgba(255, 255, 255, 0.478);
+    margin-left: auto; /* 오른쪽 정렬 */
+    margin-right: 10px; /* 오른쪽 마진 추가 */
 }
 
 .their-message {
     align-self: flex-start;
     background-color: rgba(255, 255, 255, 0.478);
+    margin-right: auto; /* 왼쪽 정렬 */
+    margin-left: 10px; /* 왼쪽 마진 추가 */
 }
 
 .messages-list .card-header {
@@ -155,11 +165,12 @@ ul {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-bottom: 20px; /* Add margin to adjust the position */
 }
 
 .message-input {
     resize: none;
-    width: 100%;
+    width: 580px;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
@@ -234,16 +245,68 @@ ul {
     margin-bottom: 0;
 }
 
-#newRoomAlert {
+#newRoomAlert, #newMessageAlert {
     position: absolute;
-    top: 10px;
     left: 50%;
     transform: translateX(-50%);
+    width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#newRoomAlert.show, #newMessageAlert.show {
+    opacity: 1;
+}
+
+#newRoomAlert {
+    top: 30px;
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding: 5px;
+    color: #fff;
 }
 
 #newMessageAlert {
+    bottom: 150px;
+    font-size: 13px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding: 5px;
+    color: #fff;
+}
+
+/* Toggle button */
+#sidebarToggle {
+    display: none; /* Default: hide */
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+    color:black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        z-index: 1000;
+        width: 250px;
+        height: 100%;
+        background: none;
+        transition: transform 0.3s ease;
+    }
+    .sidebar.closed {
+        transform: translateX(-100%);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    #sidebarToggle {
+        display: block; /* Show the toggle button on small screens */
+    }
 }

@@ -8,36 +8,37 @@
 </head>
 <body>
     <section class="chat-section">
+        <button id="sidebarToggle">☰</button>
         <div class="container-fluid py-5">
             <div class="row">
-                <div class="col-md-4 col-lg-3 mb-4 mb-md-0" style="height: 500px">
-                    <div class="card member-card">
-                        <div class="card-body">
-                            <form id="createRoomForm" class="mb-4">
-                                <input type="text" id="roomNameInput" class="form-control" placeholder="Enter room name" required>
-                                <button type="submit" class="btn btn-primary mt-2">Create Room</button>
-                            </form>
-                            <ul id="roomList" class="list-unstyled mb-0">
-                                <!-- 채팅방 리스트가 여기 표시됩니다 -->
-                            </ul>
+                <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
+                    <div class="sidebar closed">
+                        <div class="card member-card">
+                            <div class="card-body">
+                                <form id="createRoomForm" class="mb-4">
+                                    <input type="text" id="roomNameInput" class="form-control" placeholder="Enter room name" required>
+                                    <button type="submit" class="btn btn-primary mt-2">Create Room</button>
+                                </form>
+                                <ul id="roomList" class="list-unstyled mb-0">
+                                    <!-- 채팅방 리스트가 여기 표시됩니다 -->
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style="width:600px;">
+                <div class="col-md-8 col-lg-9">
                     <div class="chattingBox">
+                        <div id="newRoomAlert" class="alert alert-info" style="display: block; text-align: center;">
+                            새로운 채팅방 생성!
+                        </div>
+                        <div id="newMessageAlert" class="alert alert-info" style="display: block; cursor: pointer; text-align: center;">
+                            새로운 메세지
+                        </div>
                         <ul id="messagesContainer" class="list-unstyled messages-list">
                             <!-- 채팅 메시지가 여기 표시됩니다 -->
-                            <div id="newRoomAlert" class="alert alert-info" style="display: none; text-align: center;">
-                                새로운 채팅방 생성!
-                            </div>
-                            <div id="newMessageAlert" class="alert alert-info" style="display: none; cursor: pointer; text-align: center;">
-                                새로운 메세지
-                            </div>
                         </ul>
-                        <div style="width:600px;">
-                            <div data-mdb-input-init style="width:600px;">
-                                <textarea style="width:600px;" class="form-control message-input" id="chattingInput" rows="4" cols="1"></textarea>
-                            </div>
+                        <div class="input-container">
+                            <textarea class="form-control message-input" id="chattingInput" rows="4"></textarea>
                         </div>
                     </div>
                 </div>

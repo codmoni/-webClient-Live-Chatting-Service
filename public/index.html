@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/home.css">
+    <title>Chat Room</title>
+</head>
+<body>
+    <section class="chat-section">
+        <div class="container-fluid py-5">
+            <div class="row">
+                <div class="col-md-4 col-lg-3 mb-4 mb-md-0" style="height: 500px">
+                    <div class="card member-card">
+                        <div class="card-body">
+                            <form id="createRoomForm" class="mb-4">
+                                <input type="text" id="roomNameInput" class="form-control" placeholder="Enter room name" required>
+                                <button type="submit" class="btn btn-primary mt-2">Create Room</button>
+                            </form>
+                            <ul id="roomList" class="list-unstyled mb-0">
+                                <!-- 채팅방 리스트가 여기 표시됩니다 -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:600px;">
+                    <div class="chattingBox">
+                        <ul id="messagesContainer" class="list-unstyled messages-list">
+                            <!-- 채팅 메시지가 여기 표시됩니다 -->
+                            <div id="newRoomAlert" class="alert alert-info" style="display: none; text-align: center;">
+                                새로운 채팅방 생성!
+                            </div>
+                            <div id="newMessageAlert" class="alert alert-info" style="display: none; cursor: pointer; text-align: center;">
+                                새로운 메세지
+                            </div>
+                        </ul>
+                        <div style="width:600px;">
+                            <div data-mdb-input-init style="width:600px;">
+                                <textarea style="width:600px;" class="form-control message-input" id="chattingInput" rows="4" cols="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <form id="loginForm">
+                <label for="username">Enter your username:</label>
+                <input type="text" id="username" name="username" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* General styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Prevent body overflow */
+}
+
+.chat-section {
+    background-color: #eee;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent section overflow */
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+.row {
+    height: 100%;
+    display: flex;
+}
+
+.col-md-4, .col-md-8, .col-lg-3, .col-lg-9 {
+    height: 100%;
+    /* overflow-y: auto; */
+}
+
+.member-card {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    height: 94vh;
+    margin-right: 20px;
+}
+
+ul {
+    display: block;
+    list-style-type: none;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    unicode-bidi: isolate;
+    padding: 0px;
+}
+
+.member-card .card-body {
+    overflow-y: auto;
+    margin: 0px;
+}
+
+.member-item {
+    background-color: #eee;
+}
+
+.member-info {
+    flex: 1;
+}
+
+#roomList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+#roomList li:hover {
+    background-color: #f1f1f1;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chattingBox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.messages-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    border: 0;
+    background-color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px;
+}
+
+.messages-list .card {
+    margin-bottom: 10px;
+    border: 0;
+    width: auto; /* 채팅 박스의 너비 조정 */
+    max-width: 80%; /* 최대 너비 설정 */
+    word-wrap: break-word;
+}
+
+.my-message {
+    align-self: flex-end;
+    background-color: rgba(255, 255, 255, 0.478);
+}
+
+.their-message {
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.478);
+}
+
+.messages-list .card-header {
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.messages-list .card-body {
+    background-color: #eee;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.messages-list .card-footer {
+    background-color: transparent;
+    border-top: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.input-container {
+    width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.message-input {
+    resize: none;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.send-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-section {
+    background-color: #eee;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    border: 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* 모달창 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.selected-room {
+    background-color: #eee;
+}
+
+.timestamp, .username {
+    margin-bottom: 0;
+}
+
+#newRoomAlert {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#newMessageAlert {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}

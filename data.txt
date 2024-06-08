@@ -1,90 +1,79 @@
 {
-  "new5": [
-    {
-      "username": "우",
-      "message": "",
-      "timestamp": "2024-06-07T07:37:28.700Z"
+  "users": {
+    "A": {
+      "rooms": {
+        "room1": true,
+        "room2": true
+      }
     },
-    {
-      "username": "좌",
-      "message": "ㅋㅋ",
-      "timestamp": "2024-06-07T07:38:05.417Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋ",
-      "timestamp": "2024-06-07T07:38:06.128Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋ",
-      "timestamp": "2024-06-07T07:38:06.366Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋ",
-      "timestamp": "2024-06-07T07:38:06.544Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋ",
-      "timestamp": "2024-06-07T07:38:06.728Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋ",
-      "timestamp": "2024-06-07T07:38:06.893Z"
-    },
-    {
-      "username": "우",
-      "message": "어",
-      "timestamp": "2024-06-07T07:38:14.016Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅎㅇ",
-      "timestamp": "2024-06-07T07:39:08.656Z"
-    },
-    {
-      "username": "우",
-      "message": "ㅎㅇ",
-      "timestamp": "2024-06-07T07:39:12.263Z"
-    },
-    {
-      "username": "우",
-      "message": "ㅋㅋㅋㅋㅋ",
-      "timestamp": "2024-06-07T07:39:17.519Z"
-    },
-    {
-      "username": "좌",
-      "message": "ㅋㅋㅋㅋㅋ",
-      "timestamp": "2024-06-07T07:42:38.038Z"
-    },
-    {
-      "username": "우",
-      "message": "ㄴㄹㅇㄹ",
-      "timestamp": "2024-06-07T07:45:41.456Z"
+    "나": {
+      "rooms": {
+        "room3": true,
+        "room1": true
+      }
     }
-  ],
-  "ew": [
-    {
-      "username": "우",
-      "message": "",
-      "timestamp": "2024-06-07T07:42:45.121Z"
-    }
-  ],
-  "new32": [
-    {
-      "username": "ㅇㅇ",
-      "message": "",
-      "timestamp": "2024-06-07T07:44:25.783Z"
-    }
-  ],
-  "ㅁㅈㄷㄹ": [
-    {
-      "username": "좌",
-      "message": "",
-      "timestamp": "2024-06-07T07:45:21.203Z"
-    }
-  ]
+  },
+  "rooms": {
+    "room1": [
+      {
+        "username": "나",
+        "message": ".",
+        "timestamp": "2024-06-08T11:50:27.838Z"
+      },
+      {
+        "username": "나",
+        "message": "ㅎㅇ",
+        "timestamp": "2024-06-08T11:50:41.465Z"
+      },
+      {
+        "username": "A",
+        "message": "ㅋㅋㅎㅇ",
+        "timestamp": "2024-06-08T11:51:01.626Z"
+      },
+      {
+        "username": "A",
+        "message": "ㅁㅎ",
+        "timestamp": "2024-06-08T11:51:05.775Z"
+      },
+      {
+        "username": "A",
+        "message": "ㅎㅇ?",
+        "timestamp": "2024-06-08T11:56:24.261Z"
+      },
+      {
+        "username": "A",
+        "message": "뭐해?",
+        "timestamp": "2024-06-08T11:56:30.256Z"
+      },
+      {
+        "username": "나",
+        "message": "나 그냥 있지",
+        "timestamp": "2024-06-08T11:56:34.773Z"
+      },
+      {
+        "username": "나",
+        "message": "너는 뭐하냐",
+        "timestamp": "2024-06-08T11:56:38.607Z"
+      },
+      {
+        "username": "A",
+        "message": "나도 그냥 있는 중이다..",
+        "timestamp": "2024-06-08T11:56:47.751Z"
+      }
+    ],
+    "room2": [
+      {
+        "username": "A",
+        "message": ".",
+        "timestamp": "2024-06-08T11:42:59.401Z"
+      }
+    ],
+    "room3": [
+      {
+        "username": "나",
+        "message": ".",
+        "timestamp": "2024-06-08T11:44:35.100Z"
+      }
+    ]
+  }
 }

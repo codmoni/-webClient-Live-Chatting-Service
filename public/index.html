@@ -19,6 +19,7 @@
                                     <input type="text" id="roomNameInput" class="form-control" placeholder="Enter room name" required>
                                     <button type="submit" class="btn btn-primary mt-2">Create Room</button>
                                 </form>
+                                <button id="logoutButton" class="btn btn-danger mt-2">Logout</button>
                                 <ul id="roomList" class="list-unstyled mb-0">
                                     <!-- 채팅방 리스트가 여기 표시됩니다 -->
                                 </ul>
@@ -28,10 +29,10 @@
                 </div>
                 <div class="col-md-8 col-lg-9">
                     <div class="chattingBox">
-                        <div id="newRoomAlert" class="alert alert-info" style="display: block; text-align: center;">
+                        <div id="newRoomAlert" class="alert alert-info" style="text-align: center;">
                             새로운 채팅방 생성!
                         </div>
-                        <div id="newMessageAlert" class="alert alert-info" style="display: block; cursor: pointer; text-align: center;">
+                        <div id="newMessageAlert" class="alert alert-info" style="cursor: pointer; text-align: center;">
                             새로운 메세지
                         </div>
                         <ul id="messagesContainer" class="list-unstyled messages-list">
@@ -49,7 +50,7 @@
         <div class="modal-content">
             <form id="loginForm">
                 <label for="username">Enter your username:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required><!-- required: 필수입력 -->
                 <button type="submit">Login</button>
             </form>
         </div>

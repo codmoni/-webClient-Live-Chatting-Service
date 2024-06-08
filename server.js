@@ -85,7 +85,7 @@ app.post('/create-room', (req, res)=>{
     //     res.status(400).send('Room already exists');
     // }
 
-    const { username, room, message } = req.body;
+    const { username, room, roomPassword, message } = req.body;
     if (!username || !room || !message) {
         console.error('Username, room, and message are required but missing');
         return res.status(400).send('Username, room, and message are required');
@@ -94,19 +94,24 @@ app.post('/create-room', (req, res)=>{
     // data.users가 정의되지 않았을 경우를 처리
     data.users = data.users || {};
     data.rooms = data.rooms || {};
+    data.users[username].rooms = data.users[username].rooms || {};
 
     if (!data.users[username]) {
         return res.status(400).send('User not found');
     }
 
-    data.users[username].rooms = data.users[username].rooms || {};
-
-    data.rooms[room] = [];
-    data.rooms[room].push({ username, message, timestamp: new Date() });
-    data.users[username].rooms[room] = true; // 사용자 참여 채팅방 목록에 추가
-    
-    saveDataToFile(data);
-    res.status(200).send('New Room Created');
+    if (!data.rooms[room]) {
+        data.rooms[room] = { password: roomPassword, messages: [] };
+        data.users[username].rooms[room] = true;
+        saveDataToFile(data);
+        return res.status(200).send('Room created');
+    } else if (data.rooms[room].password === roomPassword) {
+        data.users[username].rooms[room] = true;
+        saveDataToFile(data);
+        return res.status(200).send('Joined room');
+    } else {
+        return res.status(400).send('Incorrect password');
+    }
 });
 
 //[3] 메세지 전송
@@ -129,7 +134,7 @@ app.post('/send', (req, res) => {
     if(!data.rooms[room]){
         return res.status(400).send('Room not found');
     }
-    data.rooms[room].push({username, message, timestamp: new Date()});
+    data.rooms[room].messages.push({username, message, timestamp: new Date()});
 
     data.users[username].rooms = data.users[username].rooms || {};
 
@@ -149,7 +154,7 @@ app.post('/delete-room', (req, res) => {
     //     return res.status(400).send('Request body is missing');
     // }
 
-    const { roomName } = req.body;
+    const { username, roomName } = req.body;
     if (!roomName) {
         console.error('Username and room are required but missing');
         return res.status(400).send('Room name is required');
@@ -159,12 +164,21 @@ app.post('/delete-room', (req, res) => {
     // data.users = data.users || {};
 
     if (data.rooms[roomName]) {
-        delete data.rooms[roomName];
-        Object.keys(data.users).forEach(username=>{
-            if(data.users[username].rooms[roomName]){
-                delete data.users[username].rooms[roomName];
+        // delete data.rooms[roomName];
+        delete data.users[username].rooms[roomName];
+
+        let userCount=0;
+        Object.keys(data.users).forEach(user=>{
+            if(data.users[user].rooms[roomName]){
+                userCount ++;
+                console.log('username: '+user+'  usercount: '+userCount);
             }
         });
+
+        if(userCount === 0){
+            delete data.rooms[roomName];
+        }
+
         saveDataToFile(data);
         res.status(200).send('Room deleted');
     } else {
@@ -176,9 +190,8 @@ app.post('/delete-room', (req, res) => {
 app.get('/messages/:room', (req, res) => {
     const { room } = req.params;
     if(data.rooms && data.rooms[room]){
-        res.json(data.rooms[room]);
-    }else{
-        res.status(404).send('Room not found');
+        res.json(data.rooms[room].messages);
+        res.status(200).send('messages return')
     }
 });
 
@@ -193,11 +206,11 @@ app.get('/rooms/:username', (req, res) => {
 });
 
 
-//[7] 동적 라우팅 처리
-// app.get('/:room', (req, res) =>{
-//     const roomName = req.params.room;
-//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// })
+// [7] 동적 라우팅 처리
+app.get('/:room', (req, res) =>{
+    const roomName = req.params.room;
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

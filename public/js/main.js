@@ -1,14 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chattingInput');
     const messagesContainer = document.getElementById('messagesContainer');
-    const createRoomForm = document.getElementById('createRoomForm');
-    const roomNameInput = document.getElementById('roomNameInput');
+    // const createRoomForm = document.getElementById('createRoomButton');
+    const roomNameInput = document.getElementById('roomName');
+    const roomPasswordInput = document.getElementById('roomPassword');
     const roomList = document.getElementById('roomList');
     const newMessageAlert = document.getElementById('newMessageAlert');
     const newRoomAlert = document.getElementById('newRoomAlert');
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
     const logoutButton = document.getElementById('logoutButton');
+    const roomForm = document.getElementById('roomForm');
+    const usernameDisplay = document.getElementById('usernameDisplay')||'';
+    const roomNameDisplay = document.getElementById('roomNameDisplay')||'';
+    const closeRoomModal = document.getElementById('closeRoomModal');
+
     let room = window.location.pathname.split('/').pop() || 'default';
     let initialLoad = true;
     let lastMessageTimestamp = null;
@@ -22,15 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         loginModal.style.display = 'none';
     };
 
-    const checkLoginStatus = () =>{
-        if(currentUsername){
-            hideLoginModal();
-            fetchRooms();
-            fetchMessages();
-        }else{
-            showLoginModal();
-        }
-    }
+    const showRoomModal = () => {
+        roomModal.style.display = 'block';
+    };
+
+    const hideRoomModal = () => {
+        roomModal.style.display = 'none';
+    };
+
+    closeRoomModal.addEventListener('click', hideRoomModal);
 
     //[1] 로그인 ('/register')
     loginForm.addEventListener('submit', (e) => {
@@ -49,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     hideLoginModal();
                     fetchRooms();
                     // fetchMessages();
+                    usernameDisplay.textContent = currentUsername;
                 }else {
                     console.error('Error registering user:', xhr.responseText);
                 }
@@ -71,6 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesContainer.innerHTML = '';
     })
 
+    createRoomButton.addEventListener('click', showRoomModal);
+
     //[3] 참여 중인 채팅방 목록 반환('/rooms/:username')
     const fetchRooms = () => {
         currentUsername = sessionStorage.getItem('username');
@@ -90,14 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching rooms:', xhr.statusText);
             };
             xhr.send();
-        }else return; 
+        }
     };
 
     //[4] 채팅 내용 반환('/messages/:room')
     const fetchMessages = () => {
-        if(currentUsername){//로그인 상태일 때만 실행
+        if(currentUsername){//로그인 상태일 때
             const xhr = new XMLHttpRequest();
-            //****room 값? ****//
             xhr.open('GET', `/messages/${room}`, true);
             xhr.onload = function() {
                 if (xhr.status >= 200 && xhr.status < 300) {
@@ -159,9 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     //[6] 채팅방 생성('/create-room')
-    createRoomForm.addEventListener('submit', (e) => {
+    roomForm.addEventListener('submit',(e)=>{
         e.preventDefault();
         const roomName = roomNameInput.value.trim();
+        const roomPassword = roomPasswordInput.value.trim()||'';
         currentUsername = sessionStorage.getItem('username');
         
         if (roomName) {
@@ -171,13 +180,19 @@ document.addEventListener('DOMContentLoaded', () => {
             xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhr.onload = function() {
                 if (xhr.status >= 200 && xhr.status < 300) {
+                    hideRoomModal();
                     initialLoad = true;
                     fetchRooms();
                     // fetchMessages();
                     newRoomAlert.classList.add('show');
-                        setTimeout(() => {
-                            newRoomAlert.classList.remove('show');
-                        }, 5000);
+                    setTimeout(() => {
+                        newRoomAlert.classList.remove('show');
+                    }, 5000);
+                    roomNameDisplay.textContent = roomName;
+                    roomNameInput.value = '';
+                    roomPasswordInput.value='';
+                    window.history.pushState(null, null, `/${roomName}`);
+                    room = roomName; // URL 변경 후 room 변수 업데이트
                 } else {
                     console.error('Error creating room(1):', xhr.statusText);
                 }
@@ -185,9 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
             xhr.onerror = function() {
                 console.error('Error creating room(2):', xhr.statusText);
             };
-            xhr.send(JSON.stringify({ username:currentUsername, room:roomName, message:'.' }));
+            xhr.send(JSON.stringify({ username:currentUsername, room, roomPassword, message:'.' }));
         }
-    });
+    })
 
     const isScrolledToBottom = () => {
         return messagesContainer.scrollHeight - messagesContainer.scrollTop <= messagesContainer.clientHeight + 1;
@@ -213,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             roomElement.className = 'd-flex justify-content-between align-items-center';
             roomElement.innerHTML = `
                 <span>${roomName}</span>
-                <button class="btn btn-danger btn-sm delete-button" style="color:black;">x</button>
+                <button class="btn btn-danger btn-sm delete-button" style="color:black; height: 13px; font-size:13px; padding:0px;">X</button>
             `;
 
             roomElement.querySelector('.delete-button').addEventListener('click', (e) => {
@@ -224,6 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
                         roomList.removeChild(roomElement);
+                        messagesContainer.innerHTML = '';
+                        roomNameDisplay.textContent = 'Create or Join Chatting Room!';
+                        window.history.pushState(null, null, '/'); // URL 변경
+                        room = ''; // 현재 방 초기화
                     } else {
                         console.error('Error deleting room');
                     }
@@ -231,14 +250,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 xhr.onerror = function() {
                     console.error('Error deleting room');
                 };
-                xhr.send(JSON.stringify({ roomName }));
+                xhr.send(JSON.stringify({ username: currentUsername, roomName }));
             });
 
             roomElement.addEventListener('click', () => {
                 // document.querySelectorAll('#roomList li').forEach(li => li.classList.remove('selected-room'));
                 // roomElement.classList.add('selected-room');
+                window.history.pushState(null, null, `/${roomName}`);
                 room = roomName;
                 initialLoad = true;
+                roomNameDisplay.textContent = room;
                 fetchMessages();
             });
 
@@ -306,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     setInterval(fetchRooms, 3000);
-    // setInterval(console.log(room), 3000);
     setInterval(fetchMessages, 3000);
     showLoginModal();
 });

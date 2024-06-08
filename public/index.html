@@ -15,10 +15,8 @@
                     <div class="sidebar closed">
                         <div class="card member-card">
                             <div class="card-body">
-                                <form id="createRoomForm" class="mb-4">
-                                    <input type="text" id="roomNameInput" class="form-control" placeholder="Enter room name" required>
-                                    <button type="submit" class="btn btn-primary mt-2">Create Room</button>
-                                </form>
+                                <div id="userInfo" class="mb-4">Hello,<br> <span id="usernameDisplay">Username</span>!</div>
+                                <button id="createRoomButton" class="btn btn-primary mt-2">Create/Join Room</button>
                                 <button id="logoutButton" class="btn btn-danger mt-2">Logout</button>
                                 <ul id="roomList" class="list-unstyled mb-0">
                                     <!-- 채팅방 리스트가 여기 표시됩니다 -->
@@ -35,6 +33,7 @@
                         <div id="newMessageAlert" class="alert alert-info" style="cursor: pointer; text-align: center;">
                             새로운 메세지
                         </div>
+                        <div id="roomInfo" class="mb-4"><span id="roomNameDisplay">Create or Join Chatting Room!</span></div>
                         <ul id="messagesContainer" class="list-unstyled messages-list">
                             <!-- 채팅 메시지가 여기 표시됩니다 -->
                         </ul>
@@ -48,10 +47,26 @@
     </section>
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <form id="loginForm">
-                <label for="username">Enter your username:</label>
-                <input type="text" id="username" name="username" required><!-- required: 필수입력 -->
+            <!-- <span class="close" id="closeLoginModal">&times;</span> -->
+            <form id="loginForm" style="text-align:center;">
+                <h2>Login</h2>
+                <!-- <label for="username">Username </label> -->
+                <input type="text" id="username" name="username" placeholder="Your Name"><br><br>
                 <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="roomModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRoomModal">&times;</span>
+            <form id="roomForm" style="text-align:center;">
+                <h2>Create or Join Room!</h2>
+                <!-- <label for="roomName">Enter room name:</label> -->
+                <input type="text" id="roomName" name="roomName" placeholder="Room Name" required><br><br>
+                <!-- <label for="roomPassword">Enter room password (optional):</label> -->
+                <input type="password" id="roomPassword" name="roomPassword" placeholder="Room Password(Optional)"><br><br>
+                <button type="submit">Create/Join Room</button>
             </form>
         </div>
     </div>

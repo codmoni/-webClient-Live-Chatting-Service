@@ -14,14 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameDisplay = document.getElementById('usernameDisplay')||'';
     const roomNameDisplay = document.getElementById('roomNameDisplay')||'';
     const closeRoomModal = document.getElementById('closeRoomModal');
+    const searchInput = document.getElementById('searchInput');
 
     let room = window.location.pathname.split('/').pop() || 'default';
     let initialLoad = true;
     let lastMessageTimestamp = null;
     let currentUsername = sessionStorage.getItem('username') || '';//session storage에 로그인 정보 저장
+    
 
     const showLoginModal = () => {
         loginModal.style.display = 'block';
+        sessionStorage.removeItem(username);
     };
 
     const hideLoginModal = () => {
@@ -218,11 +221,32 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 5000);
         }
     };
+    
+    searchInput.addEventListener('input',()=>{       
+        const normalizeString = (str) => {
+            return str.normalize('NFC').toLowerCase(); // Normalize to NFC and convert to lowercase
+        };
+        const searchTerm = normalizeString(searchInput.value);
+        const rooms = Array.from(document.querySelectorAll('#roomList li'));
+
+        rooms.forEach(roomElement =>{
+            const roomName = normalizeString(roomElement.querySelector('span').textContent);
+            if(!roomName.includes(searchTerm)){
+                roomElement.style.display='none';
+            }
+        })
+    })
 
     //[7] 채팅방 목록 보이기 + 채팅방 삭제('/delete-room')
     const displayRooms = (rooms) => {
         roomList.innerHTML = '';
         currentUsername = sessionStorage.getItem('username');//로그인 정보 불러오기
+        
+        const normalizeString = (str) => {
+            return str.normalize('NFC').toLowerCase(); // Normalize to NFC and convert to lowercase
+        };
+        const searchTerm = normalizeString(searchInput.value);
+
         rooms.forEach(roomName => {
             const roomElement = document.createElement('li');
             roomElement.className = 'd-flex justify-content-between align-items-center';
@@ -263,6 +287,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchMessages();
             });
 
+            // 검색어 필터링 적용
+            const normalizedRoomName = normalizeString(roomName);
+            if (!normalizedRoomName.includes(searchTerm)) {
+                roomElement.style.display = 'none';
+            }
+
             roomList.appendChild(roomElement);
         });
     };
@@ -296,6 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+
+
     const scrollToBottom = () => {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
         newMessageAlert.classList.remove('show');
@@ -326,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    setInterval(fetchRooms, 3000);
+    setInterval(fetchRooms, 1000);
     setInterval(fetchMessages, 3000);
     showLoginModal();
 });

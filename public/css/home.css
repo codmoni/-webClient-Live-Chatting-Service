@@ -85,6 +85,10 @@ ul {
     background-color: #f1f1f1;
 }
 
+#searchRoom{
+    padding: 0px 39px;
+}
+
 .delete-button {
     background-color: transparent;
     border: none;

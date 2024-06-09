@@ -1,10 +1,24 @@
 {
   "users": {
+    "2": {
+      "rooms": {}
+    },
+    "55": {
+      "rooms": {
+        "54": true,
+        "489": true
+      }
+    },
     "A": {
       "rooms": {}
     },
     "나": {
-      "rooms": {}
+      "rooms": {
+        "555": true,
+        "아아": true,
+        "join": true,
+        "k": true
+      }
     },
     "ㅇㅇ": {
       "rooms": {}
@@ -16,11 +30,53 @@
       "rooms": {
         "room": true
       }
+    },
+    "토실": {
+      "rooms": {
+        "토토": true
+      }
+    },
+    "무원": {
+      "rooms": {}
+    },
+    "k": {
+      "rooms": {}
+    },
+    "니": {
+      "rooms": {}
     }
   },
   "rooms": {
+    "54": {
+      "password": "",
+      "messages": []
+    },
+    "489": {
+      "password": "",
+      "messages": []
+    },
+    "555": {
+      "password": "",
+      "messages": []
+    },
     "room": {
       "password": "0000",
+      "messages": []
+    },
+    "토토": {
+      "password": "0000",
+      "messages": []
+    },
+    "아아": {
+      "password": "",
+      "messages": []
+    },
+    "join": {
+      "password": "",
+      "messages": []
+    },
+    "k": {
+      "password": "0309",
       "messages": []
     }
   }

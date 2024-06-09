@@ -1,27 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const chatInput = document.getElementById('chattingInput');
-    const messagesContainer = document.getElementById('messagesContainer');
-    // const createRoomForm = document.getElementById('createRoomButton');
-    const roomNameInput = document.getElementById('roomName');
-    const roomPasswordInput = document.getElementById('roomPassword');
+    //----------------------------------------DOM Elements----------------------------------------//
+    //채팅 요소
     const roomList = document.getElementById('roomList');
+    const messagesContainer = document.getElementById('messagesContainer');
+    const chatInput = document.getElementById('chattingInput');
     const newMessageAlert = document.getElementById('newMessageAlert');
     const newRoomAlert = document.getElementById('newRoomAlert');
+    //모달창
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
-    const logoutButton = document.getElementById('logoutButton');
     const roomForm = document.getElementById('roomForm');
+    const roomNameInput = document.getElementById('roomName');
+    const roomPasswordInput = document.getElementById('roomPassword');
+    const closeRoomModal = document.getElementById('closeRoomModal');
+    //etc
+    const logoutButton = document.getElementById('logoutButton');
     const usernameDisplay = document.getElementById('usernameDisplay')||'';
     const roomNameDisplay = document.getElementById('roomNameDisplay')||'';
-    const closeRoomModal = document.getElementById('closeRoomModal');
     const searchInput = document.getElementById('searchInput');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
 
+    //----------------------------------------Variables----------------------------------------//
     let room = window.location.pathname.split('/').pop() || 'default';
-    let initialLoad = true;
-    let lastMessageTimestamp = null;
+    let initialLoad = true;//scroll 기능 제어하기 위함
+    let lastMessageTimestamp = null;//scroll 기능 제어하기 위함
     let currentUsername = sessionStorage.getItem('username') || '';//session storage에 로그인 정보 저장
     
 
+    //----------------------------------------Helper Functions----------------------------------------//
+    const isScrolledToBottom = () => {
+        return messagesContainer.scrollHeight - messagesContainer.scrollTop <= messagesContainer.clientHeight + 1;
+    };
+
+    const scrollToBottom = () => {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        newMessageAlert.classList.remove('show');
+    };
+
+    const showNewMessageAlert = () => {
+        if (!newRoomAlert.classList.contains('show')) {
+            newMessageAlert.classList.add('show');
+            setTimeout(() => {
+                if (newMessageAlert.classList.contains('show')) {
+                    newMessageAlert.classList.remove('show');
+                }
+            }, 5000);
+        }
+    };
+    
+    const normalizeString = (str) => {
+        return str.normalize('NFC').toLowerCase(); // Normalize to NFC and convert to lowercase
+    };
+    
     const showLoginModal = () => {
         loginModal.style.display = 'block';
         sessionStorage.removeItem(username);
@@ -40,8 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     closeRoomModal.addEventListener('click', hideRoomModal);
+    createRoomButton.addEventListener('click', showRoomModal);
 
-    //[1] 로그인 ('/register')
+    //----------------------------------------Main Functions----------------------------------------//
+    //로그인 ('/register')
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         currentUsername = document.getElementById('username').value.trim();
@@ -57,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.setItem('username', currentUsername);
                     hideLoginModal();
                     fetchRooms();
-                    // fetchMessages();
                     usernameDisplay.textContent = currentUsername;
                 }else {
                     console.error('Error registering user:', xhr.responseText);
@@ -80,8 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         roomList.innerHTML = '';
         messagesContainer.innerHTML = '';
     })
-
-    createRoomButton.addEventListener('click', showRoomModal);
 
     //[3] 참여 중인 채팅방 목록 반환('/rooms/:username')
     const fetchRooms = () => {
@@ -148,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //[5] 메세지 전송('/send')
     const sendMessage = () => {
         const message = chatInput.value.trim();
-        currentUsername = sessionStorage.getItem('username');//로그인 정보 불러오기
+        currentUsername = sessionStorage.getItem('username');
         if (message) {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', '/send', true);
@@ -186,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     hideRoomModal();
                     initialLoad = true;
                     fetchRooms();
-                    // fetchMessages();
                     newRoomAlert.classList.add('show');
                     setTimeout(() => {
                         newRoomAlert.classList.remove('show');
@@ -203,48 +232,15 @@ document.addEventListener('DOMContentLoaded', () => {
             xhr.onerror = function() {
                 console.error('Error creating room(2):', xhr.statusText);
             };
-            xhr.send(JSON.stringify({ username:currentUsername, room, roomPassword, message:'.' }));
+            xhr.send(JSON.stringify({ username:currentUsername, room, roomPassword }));
         }
-    })
-
-    const isScrolledToBottom = () => {
-        return messagesContainer.scrollHeight - messagesContainer.scrollTop <= messagesContainer.clientHeight + 1;
-    };
-
-    const showNewMessageAlert = () => {
-        if (!newRoomAlert.classList.contains('show')) {
-            newMessageAlert.classList.add('show');
-            setTimeout(() => {
-                if (newMessageAlert.classList.contains('show')) {
-                    newMessageAlert.classList.remove('show');
-                }
-            }, 5000);
-        }
-    };
-    
-    searchInput.addEventListener('input',()=>{       
-        const normalizeString = (str) => {
-            return str.normalize('NFC').toLowerCase(); // Normalize to NFC and convert to lowercase
-        };
-        const searchTerm = normalizeString(searchInput.value);
-        const rooms = Array.from(document.querySelectorAll('#roomList li'));
-
-        rooms.forEach(roomElement =>{
-            const roomName = normalizeString(roomElement.querySelector('span').textContent);
-            if(!roomName.includes(searchTerm)){
-                roomElement.style.display='none';
-            }
-        })
     })
 
     //[7] 채팅방 목록 보이기 + 채팅방 삭제('/delete-room')
     const displayRooms = (rooms) => {
         roomList.innerHTML = '';
         currentUsername = sessionStorage.getItem('username');//로그인 정보 불러오기
-        
-        const normalizeString = (str) => {
-            return str.normalize('NFC').toLowerCase(); // Normalize to NFC and convert to lowercase
-        };
+
         const searchTerm = normalizeString(searchInput.value);
 
         rooms.forEach(roomName => {
@@ -256,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             roomElement.querySelector('.delete-button').addEventListener('click', (e) => {
-                e.stopPropagation();//이벤트 버블링을 막기 위함
+                e.stopPropagation();//이벤트 버블링 방지
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', '/delete-room', true);
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
@@ -265,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         roomList.removeChild(roomElement);
                         messagesContainer.innerHTML = '';
                         roomNameDisplay.textContent = 'Create or Join Chatting Room!';
-                        window.history.pushState(null, null, '/'); // URL 변경
+                        window.history.pushState(null, null, '/');
                         room = ''; // 현재 방 초기화
                     } else {
                         console.error('Error deleting room');
@@ -278,8 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             roomElement.addEventListener('click', () => {
-                // document.querySelectorAll('#roomList li').forEach(li => li.classList.remove('selected-room'));
-                // roomElement.classList.add('selected-room');
                 window.history.pushState(null, null, `/${roomName}`);
                 room = roomName;
                 initialLoad = true;
@@ -297,9 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    //[8] 메세지 보이기
     const displayMessages = (messages) => {
         messagesContainer.innerHTML = '';
-        messages.slice(1).forEach(({ username, message, timestamp }) => {
+        messages.forEach(({ username, message, timestamp }) => {
             const messageElement = document.createElement('li');
             messageElement.className = 'd-flex justify-content-between mb-4';
             messageElement.innerHTML = `
@@ -326,13 +321,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    //[9] 채팅방 검색
+    searchInput.addEventListener('input',()=>{       
+        const searchTerm = normalizeString(searchInput.value);
+        const rooms = Array.from(document.querySelectorAll('#roomList li'));
+
+        rooms.forEach(roomElement =>{
+            const roomName = normalizeString(roomElement.querySelector('span').textContent);
+            if(!roomName.includes(searchTerm)){
+                roomElement.style.display='none';
+            }
+        })
+    })
 
 
-    const scrollToBottom = () => {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        newMessageAlert.classList.remove('show');
-    };
-
+    //엔터키로 메세지 전송
     chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -340,14 +343,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //새 메세지 알림 클릭 시 스크롤
     newMessageAlert.addEventListener('click', () => {
         newMessageAlert.classList.remove('show');
         scrollToBottom();
     });
 
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.querySelector('.sidebar');
-
+    //사이드바 토글
     sidebarToggle.addEventListener('click', () => {
         if (sidebar.classList.contains('closed')) {
             sidebar.classList.remove('closed');
@@ -358,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //Polling
     setInterval(fetchRooms, 1000);
     setInterval(fetchMessages, 3000);
     showLoginModal();

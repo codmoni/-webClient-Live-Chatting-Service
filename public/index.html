@@ -9,18 +9,18 @@
 <body>
     <section class="chat-section">
         <button id="sidebarToggle">☰</button>
-        <div class="container-fluid py-5">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
+                <div class="col-md-4 col-lg-3">
                     <div class="sidebar closed">
                         <div class="card member-card">
                             <div class="card-body">
-                                <div id="userInfo" class="mb-4">Hello,<br> <span id="usernameDisplay">Username</span>!</div>
-                                <button id="createRoomButton" class="btn btn-primary mt-2">Create/Join Room</button>
-                                <button id="logoutButton" class="btn btn-danger mt-2">Logout</button>
+                                <div id="userInfo">Hello,<br> <span id="usernameDisplay">Username</span>!</div>
+                                <button id="createRoomButton">Create/Join Room</button>
+                                <button id="logoutButton">Logout</button>
                                 <form id="searchRoom">
                                     <img src="img/lens.png" style="width: 13px; height: 13px; margin: 10px 5px -3px 0px;">
-                                    <input type="text" id="searchInput" class="form-control" placeholder="Search rooms...">
+                                    <input type="text" id="searchInput" placeholder="Search rooms...">
                                 </form>
                                 <ul id="roomList" class="list-unstyled mb-0">
                                     <!-- 채팅방 리스트가 여기 표시됩니다 -->
@@ -31,18 +31,18 @@
                 </div>
                 <div class="col-md-8 col-lg-9">
                     <div class="chattingBox">
-                        <div id="newRoomAlert" class="alert alert-info" style="text-align: center;">
+                        <div id="newRoomAlert" style="text-align: center;">
                             새로운 채팅방 생성!
                         </div>
-                        <div id="newMessageAlert" class="alert alert-info" style="cursor: pointer; text-align: center;">
+                        <div id="newMessageAlert" style="cursor: pointer; text-align: center;">
                             새로운 메세지
                         </div>
-                        <div id="roomInfo" class="mb-4"><span id="roomNameDisplay">Create or Join Chatting Room!</span></div>
-                        <ul id="messagesContainer" class="list-unstyled messages-list">
+                        <div id="roomInfo"><span id="roomNameDisplay">Create or Join Chatting Room!</span></div>
+                        <ul id="messagesContainer" class="messages-list">
                             <!-- 채팅 메시지가 여기 표시됩니다 -->
                         </ul>
                         <div class="input-container">
-                            <textarea class="form-control message-input" id="chattingInput" rows="4"></textarea>
+                            <textarea class="message-input" id="chattingInput" rows="4"></textarea>
                         </div>
                     </div>
                 </div>
@@ -51,10 +51,8 @@
     </section>
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <!-- <span class="close" id="closeLoginModal">&times;</span> -->
             <form id="loginForm" style="text-align:center;">
                 <h2>Login</h2>
-                <!-- <label for="username">Username </label> -->
                 <input type="text" id="username" name="username" placeholder="Your Name"><br><br>
                 <button type="submit">Login</button>
             </form>
@@ -63,13 +61,11 @@
 
     <div id="roomModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="closeRoomModal">&times;</span>
+            <span class="close" id="closeRoomModal">&times;</span><!--닫기버튼-->
             <form id="roomForm" style="text-align:center;">
                 <h2>Create or Join Room!</h2>
-                <!-- <label for="roomName">Enter room name:</label> -->
                 <input type="text" id="roomName" name="roomName" placeholder="Room Name" required><br><br>
-                <!-- <label for="roomPassword">Enter room password (optional):</label> -->
-                <input type="password" id="roomPassword" name="roomPassword" placeholder="Room Password(Optional)"><br><br>
+                <input type="password" id="roomPassword" name="roomPassword" placeholder="Room Password(Optional)" style="margin-bottom:5px;"><br>
                 <button type="submit">Create/Join Room</button>
             </form>
         </div>

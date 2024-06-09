@@ -1,82 +1,114 @@
 {
   "users": {
-    "2": {
+    "user1": {
       "rooms": {}
     },
-    "55": {
-      "rooms": {
-        "54": true,
-        "489": true
-      }
+    "user2": {
+      "rooms": {}
     },
-    "A": {
+    "user4": {
       "rooms": {}
     },
     "나": {
-      "rooms": {
-        "555": true,
-        "아아": true,
-        "join": true,
-        "k": true
-      }
+      "rooms": {}
+    },
+    "가": {
+      "rooms": {}
     },
     "ㅇㅇ": {
       "rooms": {}
     },
-    "dd": {
+    "ㅇ": {
       "rooms": {}
     },
-    "우": {
+    "황무원": {
       "rooms": {
-        "room": true
+        "room1": true,
+        "채팅방1": true,
+        "Happy": true,
+        "room3": true,
+        "room4": true
       }
     },
-    "토실": {
+    "ㄴ": {
+      "rooms": {}
+    },
+    "홍길동": {
       "rooms": {
-        "토토": true
+        "room1": true
       }
     },
-    "무원": {
-      "rooms": {}
-    },
-    "k": {
-      "rooms": {}
-    },
-    "니": {
-      "rooms": {}
+    "손흥민": {
+      "rooms": {
+        "room1": true
+      }
     }
   },
   "rooms": {
-    "54": {
-      "password": "",
-      "messages": []
-    },
-    "489": {
-      "password": "",
-      "messages": []
-    },
-    "555": {
-      "password": "",
-      "messages": []
-    },
-    "room": {
+    "room1": {
       "password": "0000",
+      "messages": [
+        {
+          "username": "홍길동",
+          "message": "hello",
+          "timestamp": "2024-06-09T18:51:57.622Z"
+        },
+        {
+          "username": "황무원",
+          "message": "hi",
+          "timestamp": "2024-06-09T19:18:18.469Z"
+        },
+        {
+          "username": "홍길동",
+          "message": "good morning!",
+          "timestamp": "2024-06-09T19:18:24.511Z"
+        },
+        {
+          "username": "홍길동",
+          "message": "how's the weather today?",
+          "timestamp": "2024-06-09T19:18:34.307Z"
+        },
+        {
+          "username": "홍길동",
+          "message": ".",
+          "timestamp": "2024-06-09T19:27:29.706Z"
+        },
+        {
+          "username": "홍길동",
+          "message": ".",
+          "timestamp": "2024-06-09T19:27:30.748Z"
+        },
+        {
+          "username": "손흥민",
+          "message": "ㅋㅋㅋㅋ",
+          "timestamp": "2024-06-09T22:28:55.412Z"
+        },
+        {
+          "username": "황무원",
+          "message": "ㅋㅋㅋㅋ",
+          "timestamp": "2024-06-09T22:29:20.226Z"
+        },
+        {
+          "username": "황무원",
+          "message": "뭐해",
+          "timestamp": "2024-06-09T22:29:24.883Z"
+        }
+      ]
+    },
+    "채팅방1": {
+      "password": "",
       "messages": []
     },
-    "토토": {
+    "Happy": {
+      "password": "",
+      "messages": []
+    },
+    "room3": {
+      "password": "",
+      "messages": []
+    },
+    "room4": {
       "password": "0000",
-      "messages": []
-    },
-    "아아": {
-      "password": "",
-      "messages": []
-    },
-    "join": {
-      "password": "",
-      "messages": []
-    },
-    "k": {
-      "password": "0309",
       "messages": []
     }
   }
